@@ -219,49 +219,37 @@ def analitzar_quantitat_dones(any, genere):
 
 
 #################################################################################################################
-@app.route("/grafic", methods=('GET', 'POST'))
-def grafico():
-    # Ja tenim un gràfic horitzontal, això ho aconseguim utilitzant el plt.barh
-    # Aqui cridem a les funcions amb les dades predeterminades any=2022 i genere=Home
-    info_poblacio_edat_homes = analitzar_edat("2022", "Hombres")
-    int_poblacio_quantitat_homes = analitzar_quantitat_homes("2022", "Hombres")
-    # Aqui cridem a les funcions amb les dades predeterminades any=2022 i genere=Dona
-    info_poblacio_edat_dones = analitzar_edat("2022", "Mujeres")
-    int_poblacio_quantitat_dones = analitzar_quantitat_dones("2022", "Mujeres")
-    #################################################################################################################
-    #  Hem creat el dataframe amb les dos llistes de la variable Homes
-    registre_de_dades_homes = {"Franja d'edat": info_poblacio_edat_homes,
-                               "Nombre de persones": int_poblacio_quantitat_homes}
-    df_homes = pd.DataFrame(registre_de_dades_homes)
-    #  Hem creat el dataframe amb les dos llistes de la variable Dones
-    registre_de_dades_dones = {"Franja d'edat": info_poblacio_edat_dones,
-                               "Nombre de persones": int_poblacio_quantitat_dones}
-    df_dones = pd.DataFrame(registre_de_dades_dones)
-    #  LLavors amb .iloc el que fem és organitzar de forma manual l'index tant homes com dones
-    df_homes = df_homes.iloc[[19, 0, 1, 2, 3, 4, 5, 6, 7, 9,
-                              10, 11, 12, 13, 14, 15, 16, 17, 18, 8, 20]]
-    df_dones = df_dones.iloc[[19, 0, 1, 2, 3, 4, 5, 6, 7, 9,
-                              10, 11, 12, 13, 14, 15, 16, 17, 18, 8, 20]]
+# Ja tenim un gràfic horitzontal, això ho aconseguim utilitzant el plt.barh
+# Aqui cridem a les funcions amb les dades predeterminades any=2022 i genere=Home
+info_poblacio_edat_homes = analitzar_edat("2022", "Hombres")
+int_poblacio_quantitat_homes = analitzar_quantitat_homes("2022", "Hombres")
+# Aqui cridem a les funcions amb les dades predeterminades any=2022 i genere=Dona
+info_poblacio_edat_dones = analitzar_edat("2022", "Mujeres")
+int_poblacio_quantitat_dones = analitzar_quantitat_dones("2022", "Mujeres")
+#################################################################################################################
+#  Hem creat el dataframe amb les dos llistes de la variable Homes
+registre_de_dades_homes = {"Franja d'edat": info_poblacio_edat_homes,
+                            "Nombre de persones": int_poblacio_quantitat_homes}
+df_homes = pd.DataFrame(registre_de_dades_homes)
+#  Hem creat el dataframe amb les dos llistes de la variable Dones
+registre_de_dades_dones = {"Franja d'edat": info_poblacio_edat_dones,
+                            "Nombre de persones": int_poblacio_quantitat_dones}
+df_dones = pd.DataFrame(registre_de_dades_dones)
+#  LLavors amb .iloc el que fem és organitzar de forma manual l'index tant homes com dones
+df_homes = df_homes.iloc[[19, 0, 1, 2, 3, 4, 5, 6, 7, 9,
+                            10, 11, 12, 13, 14, 15, 16, 17, 18, 8, 20]]
+df_dones = df_dones.iloc[[19, 0, 1, 2, 3, 4, 5, 6, 7, 9,
+                            10, 11, 12, 13, 14, 15, 16, 17, 18, 8, 20]]
 
-    def crear_grafico_barras():
-        fig, axs = plt.subplots(1, 2, figsize=(10, 5))
-        axs[0].barh(df_homes["Franja d'edat"], df_homes["Nombre de persones"])
-        axs[0].set_title("Població masculina espanyola per edat al 2022")
-        axs[0].invert_xaxis()
-        axs[0].invert_yaxis()
-        axs[1].barh(df_dones["Franja d'edat"], df_dones["Nombre de persones"])
-        axs[1].set_title("Població femenina espanyola per edat al 2022")
-        axs[1].invert_yaxis()
-        plt.show()
-        mpld3.show()
-        return plt.gcf()
-    # Genera el gráfico de barras
-    grafico = crear_grafico_barras()
-    # Convierte el gráfico en un objeto HTML
-    grafico_html = mpld3.fig_to_html(grafico)
-    # Retorna la plantilla con el objeto HTML de la gráfica
-    return render_template("grafic.html", grafico_html=grafico_html)
-
-
-if __name__ == "__main__":
-    app.run(debug=True)
+def crear_grafico_barras():
+    fig, axs = plt.subplots(1, 2, figsize=(10, 5))
+    axs[0].barh(df_homes["Franja d'edat"], df_homes["Nombre de persones"])
+    axs[0].set_title("Població masculina espanyola per edat al 2022")
+    axs[0].invert_xaxis()
+    axs[0].invert_yaxis()
+    axs[1].barh(df_dones["Franja d'edat"], df_dones["Nombre de persones"])
+    axs[1].set_title("Població femenina espanyola per edat al 2022")
+    axs[1].invert_yaxis()
+    plt.show()
+    plt.savefig("grafic.png")
+    mpld3.show()
