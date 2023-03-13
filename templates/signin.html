@@ -15,10 +15,15 @@
       <h1>Aplicació web amb base de dades (M02-UF3-AC4)</h1>
     </header>
     <main>
-      <form action="{{url_for('results')}}" method="POST" class="formulario">
-        <h2>Log in to application</h2>
-        <input type="text" name="usuario" placeholder="login" />
-        <input type="text" name="contrasena" placeholder="contraseña" />
+      <form action="{{url_for('newUser')}}" method="POST" class="formulario">
+        <h2>Sign in to application</h2>
+        <input type="text" name="usuari" placeholder="usuari" />
+        <input type="text" name="contrasenya" placeholder="contraseña" />
+        <input type="text" name="nom" placeholder="nom" />
+        <input type="text" name="cognom1" placeholder="cognom1" />
+        <input type="text" name="cognom2" placeholder="cognom2" />
+        <input type="text" name="edat" placeholder="edat" />
+        <input type="text" name="genere" placeholder="genere" />
         <input type="submit" value="Enviar" />
       </form>
     </main>
