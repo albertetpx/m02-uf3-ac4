@@ -21,7 +21,7 @@ def connectBD():
     db = mysql.connector.connect(
         host="localhost",
         user="root",
-        passwd="MoapetS15",
+        passwd="",
         database="users"
     )
     return db
@@ -229,27 +229,25 @@ int_poblacio_quantitat_dones = analitzar_quantitat_dones("2022", "Mujeres")
 #################################################################################################################
 #  Hem creat el dataframe amb les dos llistes de la variable Homes
 registre_de_dades_homes = {"Franja d'edat": info_poblacio_edat_homes,
-                            "Nombre de persones": int_poblacio_quantitat_homes}
+                           "Nombre de persones": int_poblacio_quantitat_homes}
 df_homes = pd.DataFrame(registre_de_dades_homes)
 #  Hem creat el dataframe amb les dos llistes de la variable Dones
 registre_de_dades_dones = {"Franja d'edat": info_poblacio_edat_dones,
-                            "Nombre de persones": int_poblacio_quantitat_dones}
+                           "Nombre de persones": int_poblacio_quantitat_dones}
 df_dones = pd.DataFrame(registre_de_dades_dones)
 #  LLavors amb .iloc el que fem és organitzar de forma manual l'index tant homes com dones
 df_homes = df_homes.iloc[[19, 0, 1, 2, 3, 4, 5, 6, 7, 9,
-                            10, 11, 12, 13, 14, 15, 16, 17, 18, 8, 20]]
+                          10, 11, 12, 13, 14, 15, 16, 17, 18, 8, 20]]
 df_dones = df_dones.iloc[[19, 0, 1, 2, 3, 4, 5, 6, 7, 9,
-                            10, 11, 12, 13, 14, 15, 16, 17, 18, 8, 20]]
+                          10, 11, 12, 13, 14, 15, 16, 17, 18, 8, 20]]
 
-def crear_grafico_barras():
-    fig, axs = plt.subplots(1, 2, figsize=(10, 5))
-    axs[0].barh(df_homes["Franja d'edat"], df_homes["Nombre de persones"])
-    axs[0].set_title("Població masculina espanyola per edat al 2022")
-    axs[0].invert_xaxis()
-    axs[0].invert_yaxis()
-    axs[1].barh(df_dones["Franja d'edat"], df_dones["Nombre de persones"])
-    axs[1].set_title("Població femenina espanyola per edat al 2022")
-    axs[1].invert_yaxis()
-    plt.show()
-    plt.savefig("grafic.png")
-    mpld3.show()
+fig, axs = plt.subplots(1, 2, figsize=(10, 5))
+axs[0].barh(df_homes["Franja d'edat"], df_homes["Nombre de persones"])
+axs[0].set_title("Població masculina espanyola per edat al 2022")
+axs[0].invert_xaxis()
+axs[0].invert_yaxis()
+axs[1].barh(df_dones["Franja d'edat"], df_dones["Nombre de persones"])
+axs[1].set_title("Població femenina espanyola per edat al 2022")
+axs[1].invert_yaxis()
+# plt.show()
+plt.savefig("static/grafic.png")
